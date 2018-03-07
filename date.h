@@ -5,7 +5,7 @@ class Date
 		int year;
 		int month;
 		int day;
-		int[] days_in_month = {31,28}
+		int[12] days_in_month = {31,28,31,30,31,30,31,31,30,31,30,31}
 	
 	public:
 		//constructor
@@ -23,11 +23,25 @@ class Date
 		int dateToNum(Date a, int base_year)
 		{
 			num_years = a.getYear() - base_year;
+			num_days = 0;
 			for(int i = 0; i < num_years; i++)
 			{
-				
+				if ( (base_year+i%4) == 0 && ((base_year+i%100) != 0  || (base_year+i%400) == 0 ))
+					num_days += 366;
+				else
+					num_days += 365;
 			}
 			
+			for(int i = 0; i < a.getMonth(); i++)
+			{
+				num_days += days_in_month[i];
+				if ( i == 2 && (a.getYear()%4) == 0 && ((a.getYear()%100) != 0  || (a.getYear()%400) == 0 ))
+					num_days += 1;
+			}
+		
+			num_days += a.getDay();
+			
+			return num_days;
 		}
 		
 		//convert a number to a date
