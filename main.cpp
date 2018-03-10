@@ -3,6 +3,7 @@
 #include <functional>
 #include <queue>
 #include <vector>
+#include <fstream>
 #include "date.h"
 using namespace std;
 
@@ -14,28 +15,35 @@ int main()
 	int base_year;
 	int counter = 0;
 	int total = 0;
+	string filename;
+	ifstream fin;
 	Date output(0,0,0);
 	priority_queue<Date, vector<Date>, greater<Date> > input;
 
-	cout << "This program calculates the average day of the year given a set of birthdays.\nType -1 to stop.\n";
-	cout << "Please enter date (Year Month Day) : ";
-	cin >> year;
+	cout << "This program calculates the average day of the year given a set of birthdays.\n";
+	cout << "Please enter filename: ";
+	cin >> filename;
 
-	while(year != -1)
+	fin.open(filename.c_str());
+	
+	//pushes all dates into a priority queue to sort them 
+	while(fin >> year)
 	{
-		cin >> month;
-		cin >> day;
+		fin >> month;
+		fin >> day;
 
 		Date temp(year, month, day);
 		input.push(temp);
-
-		cout << "Please enter date (Year Month Day) : ";
-		cin >> year;
-
 	}
 
+	fin.close();
+	
+	//find the base year
 	if(!input.empty())
 		base_year = input.top().getYear();
+	
+	//convert all dates into number based on the base year given to form basically a dynamic number line and then add all the numbers together while
+	//calculating the number of dates there are.
 	while(!input.empty())
 	{
 		counter++;
@@ -43,10 +51,8 @@ int main()
 		input.pop();
 	}
 
-	cout << "1." << endl;
+	//calculate the average date from the total divided by the number of dates.
 	total/=counter;
 	output.numToDate(total, base_year);
-	cout << "2." << endl;
-	cout << "The average date is " << output.getYear() << "/" << output.getMonth() << "/" << output.getDay() << endl;
-	cout << "Program is over" << endl;
+	cout << "The average date is " << output.getMonth() << "/" << output.getDay() << endl;
 }

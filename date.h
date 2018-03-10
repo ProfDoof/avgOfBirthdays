@@ -71,7 +71,6 @@ class Date
 			//remove the years from the num in order to find the number of years in it.
 			for(i = 0; (num_days > 365) || (num_days > 366); i++)
 			{
-				cout << a << endl;
 				if ( (base_year+i%4) == 0 && ((base_year+i%100) != 0  || (base_year+i%400) == 0 ))
 					num_days -= 366;
 				else
@@ -81,7 +80,6 @@ class Date
 
 			for(i = 0; (i == 1 && num_days > 28 ) || ((i == 0 || i == 2 || i == 4 || i == 6 || i == 7 || i == 9 || i == 11) && num_days > 31) || ((i == 3 || i == 5 || i == 8 || i == 10) && num_days > 30); i++)
 			{
-				cout << num_days << endl;
 				num_days -= days_in_month[i];
 				if ( i == 1 && (this->getYear()%4) == 0 && ((this->getYear()%100) != 0  || (this->getYear()%400) == 0 ))
 					num_days -= 1;
